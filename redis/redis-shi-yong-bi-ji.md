@@ -2,7 +2,7 @@
 
 ## Redis安装
 
-```text
+```bash
 下载地址：http://redis.io/download
 安装步骤：
 # 安装gcc
@@ -41,7 +41,7 @@ $ quit
 3. 重启redis
 4. 通过命令netstat -nlt\|grep 6379 可验证IP段
 
-```text
+```bash
 #bind 127.0.0.1
 
 protected-mode no
@@ -49,7 +49,7 @@ protected-mode no
 
 ### Redis-cli 连接
 
-```text
+```bash
 $ redis-cli -h ip -p 6379 -a password
 ```
 
@@ -59,7 +59,7 @@ $ redis-cli -h ip -p 6379 -a password
 
    将`utils/redis_init_script`文件复制到`/etc/rc.d/init.d/`目录下，并重命名为`redis`
 
-   ```text
+   ```bash
    # 复制redis_init_script到/etc/rc.d/init.d/目录下
    $ cp cp utils/redis_init_script /etc/rc.d/init.d/
 
@@ -69,7 +69,7 @@ $ redis-cli -h ip -p 6379 -a password
 
 2. 编辑redis文件
 
-   ```text
+   ```bash
    #!/bin/sh
    # chkconfig: 2345 80 90
    # Simple Redis init.d script conceived to work on Linux systems
@@ -124,20 +124,20 @@ $ redis-cli -h ip -p 6379 -a password
 
 3. 将redis添加到系统服务
 
-   ```text
+   ```bash
    $ chkconfig --ad redis
    ```
 
 4. 启动/停止
 
-   ```text
+   ```bash
    $ service redis start
    $ service redis stop
    ```
 
 5. 设置开机启动
 
-   ```text
+   ```bash
    $ chkconfig redis on
    ```
 
@@ -169,7 +169,7 @@ DECR key //将key中储存的数字值减1
 
 INCRBY key increment //将key所储存的值加上increment
 
-```text
+```bash
 # 将key所储存的值减去decrement
 $ DECRBY key decrement
 ```
@@ -326,13 +326,13 @@ $ expire online:bitOp:and:20201107:20201108 60
 
 conf文件下载
 
-```text
+```bash
 $ wget http://download.redis.io/redis-stable/redis.conf
 ```
 
 拉取镜像
 
-```text
+```bash
 $ docker pull redis:5.0.9
 ```
 
@@ -344,7 +344,7 @@ $ docker run -d --name redis -p 6379:6379 redis
 
 conf文件修改
 
-```markup
+```bash
 replicaof 192.168.0.60 6379   # 从本机6379的redis实例复制数据
 masterauth  xxxx    # 配置master实例密码
 replica-read-only yes    # 开启从机只读
@@ -352,7 +352,7 @@ replica-read-only yes    # 开启从机只读
 
 运行单个redis
 
-```text
+```bash
 $ docker run -d -p 6379:6379 --restart always --name redis-master \
 -v /root/redis/master/conf:/etc/redis/redis.conf \
 -v /root/redis/master/data:/data \
@@ -362,7 +362,7 @@ redis:5.0.9 redis-server /etc/redis/redis.conf/redis.conf \
 
 运行从库（Slave）
 
-```text
+```bash
 $ docker run -d -p 6380:6397 --restart always --name redis-slave \
 -v /root/redis/slave/conf:/etc/redis/redis.conf \
 -v /root/redis/slave/data:/data \
