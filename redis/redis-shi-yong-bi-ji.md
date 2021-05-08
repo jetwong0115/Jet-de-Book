@@ -375,7 +375,7 @@ redis:5.0.9 redis-server /etc/redis/redis.conf/redis.conf
 
 ## redis.conf
 
-```text
+```bash
 # Redis configuration file example.
 #
 # Note that in order to read the configuration file, Redis must be
