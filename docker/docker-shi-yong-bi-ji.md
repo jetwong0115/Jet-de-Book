@@ -94,72 +94,72 @@ description: 记录Docker使用的相关基础笔记
 * 首先创建一个目录用于存储生成的证书和秘钥；
 
 ```bash
-mkdir ~/docker-ca && cd ~/docker-ca
+$ mkdir ~/docker-ca && cd ~/docker-ca
 ```
 
 * 创建CA证书私钥，期间需要输入两次密码，生成文件为`ca-key.pem`；
 
 ```bash
-openssl genrsa -aes256 -out ca-key.pem 4096
+$ openssl genrsa -aes256 -out ca-key.pem 4096
 ```
 
 * 根据私钥创建CA证书，期间需要输入上一步设置的私钥密码，生成文件为`ca.pem`；
 
 ```bash
-openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -subj "/CN=*" -out ca.pem
+$ openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -subj "/CN=*" -out ca.pem
 ```
 
 * 创建服务端私钥，生成文件为`server-key.pem`；
 
 ```bash
-openssl genrsa -out server-key.pem 4096
+$ openssl genrsa -out server-key.pem 4096
 ```
 
 * 创建服务端证书签名请求文件，用于CA证书给服务端证书签名，生成文件`server.csr`；
 
 ```bash
-openssl req -subj "/CN=*" -sha256 -new -key server-key.pem -out server.csr
+$ openssl req -subj "/CN=*" -sha256 -new -key server-key.pem -out server.csr
 ```
 
 * 创建CA证书签名好的服务端证书，期间需要输入CA证书私钥密码，生成文件为`server-cert.pem`；
 
 ```bash
-openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem
+$ openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem
 ```
 
 * 创建客户端私钥，生成文件为`key.pem`；
 
 ```bash
-openssl genrsa -out key.pem 4096
+$ openssl genrsa -out key.pem 4096
 ```
 
 * 创建客户端证书签名请求文件，用于CA证书给客户证书签名，生成文件`client.csr`；
 
 ```bash
-openssl req -subj "/CN=client" -new -key key.pem -out client.csr
+$ openssl req -subj "/CN=client" -new -key key.pem -out client.csr
 ```
 
 * 为了让秘钥适合客户端认证，创建一个扩展配置文件`extfile-client.cnf`；
 
 ```bash
-echo extendedKeyUsage = clientAuth > extfile-client.cnf
+$ echo extendedKeyUsage = clientAuth > extfile-client.cnf
 ```
 
 * 创建CA证书签名好的客户端证书，期间需要输入CA证书私钥密码，生成文件为`cert.pem`；
 
 ```bash
-openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
+$ openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf
 ```
 
 * 删除创建过程中多余的文件；
 
 ```bash
-rm -rf ca.srl server.csr client.csr extfile-client.cnf
+$ rm -rf ca.srl server.csr client.csr extfile-client.cnf
 ```
 
 * 最终生成文件如下，有了它们我们就可以进行基于TLS的安全访问了。
 
-```text
+```markup
 ca.pem CA证书
 ca-key.pem CA证书私钥
 server-cert.pem 服务端证书
@@ -223,7 +223,7 @@ $ docker --help
 
 **新建容器并启动**
 
-```text
+```bash
 $ docker run [可选参数] image
 # 常见的坑。docker容器使用后台运行，就必须要有一个前台进程，docker没发现没有应用，就会自动停止
 # Nginx，容器启动后，发现自己没有提供服务，就会立即停止，就没有程序了。
@@ -243,10 +243,10 @@ $ docker run -d --name nginx -p 3344:80 \
 
 **退出容器**
 
-```text
+```bash
 $ exit #直接容器停止并退出
 
-control + P + Q        #容器不停止退出
+$ control + P + Q        #容器不停止退出
 ```
 
 **删除容器**
@@ -268,7 +268,7 @@ $ docker kill 容器id    # 强制停止运行中的容器。
 
 **容器查看命令**
 
-```text
+```bash
 # 查看荡起所有运行的容器
 $ docker ps 
 # 查看所有容器，包括停止的
@@ -341,31 +341,31 @@ $ docker build -t registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0
 $ sudo docker login --username=jetwong0115@gmail.com registry.cn-shenzhen.aliyuncs.com
 ```
 
-1. 将镜像推送到仓库
+2.将镜像推送到仓库
 
-   ```text
-   # registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
-   # 域名/命名空间/仓库:版本号
-   $ sudo docker tag fac8c36662da registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
+```bash
+# registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
+# 域名/命名空间/仓库:版本号
+$ sudo docker tag fac8c36662da registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
 
-   $ sudo docker push registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
-   ```
+$ sudo docker push registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
+```
 
-2. 从仓库拉取镜像
+3. 从仓库拉取镜像
 
-   ```text
-   $ sudo docker pull registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
-   ```
+```text
+$ sudo docker pull registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
+```
 
-3. 运行镜像
+4. 运行镜像
 
-   ```text
-   $ docker run -d --name mega-service -p 8080:8080 \
-   --restart=always \
-   -e JAVA_OPTS="-Xms128m -Xmx128m -Dspring.profiles.active=dev" \
-   -v /root/app/mega-service/logs:/root/app/mega-service/logs \
-   registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
-   ```
+```text
+$ docker run -d --name mega-service -p 8080:8080 \
+--restart=always \
+-e JAVA_OPTS="-Xms128m -Xmx128m -Dspring.profiles.active=dev" \
+-v /root/app/mega-service/logs:/root/app/mega-service/logs \
+registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0
+```
 
 ## Docker 安装 MinIO
 
