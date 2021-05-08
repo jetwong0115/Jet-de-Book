@@ -254,7 +254,7 @@ SDIFFSTORE destination key \[key ...\] //将差集结果存入新集合destinati
 
 #### SETBIT命令
 
-```text
+```bash
 # 设置值，其中value只能是 0 和 1
 $ setbit key offset value
 
@@ -274,7 +274,7 @@ $ setbit online:20201108 333 1
 
 1. 使用and操作符，然后定义一个destkey，例如：online:bitOp:and:20201107:20201108；然后加上需要统计key。
 
-```text
+```bash
 # 统计20201107和20201108两天的日活数量
 $ bitop and online:bitOp:and:20201107:20201108 online:20201107 online:20201108
 # 设置过期时间
