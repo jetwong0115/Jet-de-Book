@@ -192,7 +192,7 @@ $ vi /usr/lib/systemd/system/docker.service
   $ vim /etc/docker/daemon.json
   ```
 
-  ```javascript
+  ```json
   {
     "hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"],
     "tls": true,
@@ -213,7 +213,7 @@ $ vi /usr/lib/systemd/system/docker.service
 
 **帮助命令**
 
-```text
+```bash
 $ docker --version
 $ docker --info
 $ docker --help
@@ -308,7 +308,7 @@ portainer/portainer-ce:2.1.1
 
 #### 编写Dockerfile
 
-```text
+```bash
 FROM openjdk:8-jdk-alpine
 LABEL maintainer="JetWong<3508047@qq.com>"
 # 定义springboot应用工作目录
@@ -329,7 +329,7 @@ ENTRYPOINT java $JAVA_OPTS -jar app.jar
 
 #### 通过Dockerfile构建镜像
 
-```text
+```bash
 $ docker build -t registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0.0 .
 ```
 
@@ -337,7 +337,7 @@ $ docker build -t registry.cn-shenzhen.aliyuncs.com/chaineffect/mega-service:1.0
 
 1. 登录阿里云Docker仓库
 
-```text
+```bash
 $ sudo docker login --username=jetwong0115@gmail.com registry.cn-shenzhen.aliyuncs.com
 ```
 
@@ -451,11 +451,11 @@ $ docker pull redis:5.0.9
 
 复制配置文件
 
-```text
+```bash
 $ docker run -d --name redis -p 6379:6379 redis
 ```
 
-```text
+```bash
 $ docker run -d -p 6379:6379 --restart always --name redis \
 -v ~/redis/conf/redis.conf:/etc/redis/redis.conf \
 -v ~/redis/data:/data \
@@ -467,7 +467,7 @@ redis:5.0.9 redis-server /etc/redis/redis.conf \
 
 **Docker Compose 安装**
 
-```text
+```bash
 $ sudo curl -L https://get.daocloud.io/docker/compose/releases/download/1.26.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 
 $ sudo chmod +x /usr/local/bin/docker-compose
@@ -477,7 +477,7 @@ $ docker-compose --version
 
 **Docker Compose 后台运行**
 
-```text
+```bash
 $ docker-compose -f xxx.yml up -d
 ```
 
