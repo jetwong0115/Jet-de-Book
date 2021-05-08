@@ -13,4 +13,5 @@
 ---
 
 * [Linux](linux.md)
+* [java](java/Java各种环境安装.md)
 
