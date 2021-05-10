@@ -10,6 +10,9 @@
 
 * [Redis使用笔记](redis/redis-shi-yong-bi-ji.md)
 
+## MySql
+
+* [MySql使用笔记](mysql/MySql使用笔记.md)
 ---
 
 * [Linux](linux.md)
