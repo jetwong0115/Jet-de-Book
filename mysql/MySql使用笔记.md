@@ -28,13 +28,14 @@ $ mysql -h 127.0.0.1 -u root -p -P 3306
 ```bash
 # 启动MySql镜像
 # 挂载数据文件在 /home/mysql/data 目录
-$ docker run -d -p 3306:3306 --name mysql  \
+$ docker run -d -p 3306:3306 --name mysql -e TZ="Asia/Shanghai" \
     -v /usr/local/mysql/conf:/etc/mysql/conf.d \
     -v /usr/local/mysql/data:/var/lib/mysql \
     -v /usr/local/mysql/logs:/var/log/mysql \
-    -v /etc/localtime:/etc/localtime \
     -e MYSQL_ROOT_PASSWORD=Allan967 \
     --restart=always \
+    --character-set-server=utf8mb4 \
+    --collation-server=utf8mb4_unicode_ci \
     mysql:8.0.24
 
 # 以下是挂载MySql配置文件（可选）
