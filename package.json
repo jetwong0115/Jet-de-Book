@@ -1,0 +1,14 @@
+{
+  "name": "notes-gitbook",
+  "version": "1.0.0",
+  "private": true,
+  "description": "个人技术笔记（Docker / Redis / MySQL / Linux / Java），使用 Honkit 构建的 GitBook 文档站点",
+  "scripts": {
+    "dev": "honkit serve",
+    "serve": "honkit serve",
+    "build": "honkit build"
+  },
+  "devDependencies": {
+    "honkit": "^6.0.2"
+  }
+}
