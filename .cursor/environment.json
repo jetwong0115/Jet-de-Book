@@ -1,0 +1,12 @@
+{
+  "name": "Jet-de-Book 文档站点",
+  "user": "ubuntu",
+  "install": "if [ -f package.json ]; then npm ci; fi",
+  "start": "bash .cursor/start.sh",
+  "ports": [
+    {
+      "port": 4000,
+      "name": "honkit"
+    }
+  ]
+}
